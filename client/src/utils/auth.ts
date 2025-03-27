@@ -1,10 +1,13 @@
 // use this to decode a token and get the user's information out of it
 import { jwtDecode } from 'jwt-decode';
 
-interface UserToken {
-  name: string;
-  exp: number;
-}
+interface ExtendedJwt extends JwtPayload {
+  data:{
+    username:string,
+    email:string,
+    _id:string
+  }
+};
 
 // create a new class to instantiate for a user
 class AuthService {
