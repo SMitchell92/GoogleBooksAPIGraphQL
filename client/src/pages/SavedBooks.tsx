@@ -6,13 +6,16 @@ import { DELETE_BOOK } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
+import { useEffect } from 'react';
 
 const SavedBooks = () => {
 
   const [removeBook] = useMutation(DELETE_BOOK)
 
   const { loading, data } = useQuery(QUERY_USER);
-
+useEffect(() => {
+  console.log('data', data);
+}, [data]);
   // // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;
 
@@ -75,8 +78,8 @@ return (
   <>
     <div className='text-light bg-dark p-5'>
       <Container>
-        {data.username ? (
-          <h1>Viewing {data.username}'s saved books!</h1>
+        {data?.me?.username ? (
+          <h1>Viewing {data?.me?.username}'s saved books!</h1>
         ) : (
           <h1>Viewing saved books!</h1>
         )}
@@ -84,13 +87,13 @@ return (
     </div>
     <Container>
       <h2 className='pt-5'>
-        {data.savedBooks.length
-          ? `Viewing ${data.savedBooks.length} saved ${data.savedBooks.length === 1 ? 'book' : 'books'
+        {data?.me?.savedBooks?.length
+          ? `Viewing ${data?.me?.savedBooks?.length} saved ${data?.me?.savedBooks?.length === 1 ? 'book' : 'books'
           }:`
           : 'You have no saved books!'}
       </h2>
       <Row>
-        {data?.savedBooks?.map((book: any) => {
+        {data?.me?.savedBooks?.map((book: any) => {
           return (
             <Col md='4'>
               <Card key={book.bookId} border='dark'>
